@@ -10,10 +10,10 @@ export default styled.button`
     width: ${props => props.width || "75px"};
     height: ${props => props.height || "30px"};
     border : ${props => props.$border || "3px solid"};
-    border-color : #35B6B4;
+    border-color : #D0864B;
     border-radius : ${props => props.radius || "5px"};
-    background-color : ${props => props.$background ? "#35B6B4" : null};
-    color : ${props => props.$background ? "white" : "#35B6B4"};
+    background-color : ${props => props.$background ? "#D0864B" : null};
+    color : ${props => props.$background ? "white" : "#DO864B"};
     font-weight : bold;
     font-size : 18px;
 `
