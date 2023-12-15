@@ -15,7 +15,6 @@ const HeaderContainer = styled.header`
     
 `;
 
-
 const Image = styled.img`
     max-height: ${props => props.$max ? props.$max : "100px"};
     margin-left: ${props => props.$left ? props.$left : null};
@@ -23,6 +22,12 @@ const Image = styled.img`
 `;
 
 export default function Component() {
+
+    const handleClick = () => {
+        const current = localStorage.getItem('isClicked') === 'true';
+        localStorage.setItem('isClicked', (!current).toString());
+        window.location.reload(); // 페이지를 새로고침하여 상태 변경 반영
+    };
 
     return (
         <HeaderContainer>
@@ -35,6 +40,7 @@ export default function Component() {
                     <TextDescription color='#D0864B' size='20px'>대장은 나영이</TextDescription>
                 </CenterContainer>
             </RowContainer>
+            <button onClick={handleClick}>Toggle</button>
         </HeaderContainer>
     )
 }

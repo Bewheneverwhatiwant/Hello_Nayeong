@@ -1,20 +1,17 @@
 import { useState, useEffect } from "react";
-import TextDescription from "../Components/TextDescription";
-import TextHeader from "../Components/TextHeader";
-import CenterContainer from "../Components/CommonContainer/CenterContainer";
-import BackContainer from "../Components/BackContainer";
+import BackContainer from "../../Components/CommonContainer/BackContainer";
 import styled, { keyframes } from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import SizedBox from "../Components/SizedBox";
-import RowContainer from "../Components/CommonContainer/RowContainer";
-import ColumnCenterContainer from "../Components/CommonContainer/ColumnCenterContainer";
+import ImgStyled from "../../Components/CommonContainer/ImgStyled";
 
 const CarouselContainer = styled.div`
   position: relative;
   overflow: hidden;
+  width: 100%; // 컨테이너의 너비를 100%로 설정
+  
 `;
 
 const CarouselSlider = styled.div`
@@ -23,13 +20,18 @@ const CarouselSlider = styled.div`
 `;
 
 const CarouselItem = styled.div`
-  flex: 0 0 100%;
-padding: 10px;
-min-width: 300px;
-word-wrap: break-word;
-word-break: break-all;
-line-height: 30px;
-font-size: 17px;
+  display: flex;
+  align-items: center; // 세로 방향 중앙 정렬
+  justify-content: center; // 가로 방향 중앙 정렬
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 10px;
+`;
+
+const StyledImage = styled.img`
+  max-width: 100%; // 이미지가 컨테이너를 초과하지 않도록
+  max-height: 300px; // 이미지 높이 제한
+  object-fit: contain; // 이미지 비율 유지
 `;
 
 const CarouselButton = styled.button`
@@ -55,34 +57,45 @@ const NextButton = styled(CarouselButton)`
   right: 10px;
 `;
 
-const nextHandler = () => {
-    setCurrentIndex((prevIndex) =>
+export default function Component() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const apiData_hire = Array.from({ length: 26 });
+
+  // 슬라이더 자동 이동 타이머 설정
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex(prevIndex =>
         prevIndex === apiData_hire.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 2000);
+    return () => clearInterval(timer);
+  }, [apiData_hire.length]);
+
+  // 다음 슬라이드로 이동
+  const nextHandler = () => {
+    setCurrentIndex(prevIndex =>
+      prevIndex === apiData_hire.length - 1 ? 0 : prevIndex + 1
     );
-};
+  };
 
-const prevHandler = () => {
-    setCurrentIndex((prevIndex) =>
-        prevIndex === 0 ? apiData_hire.length - 1 : prevIndex - 1
+  // 이전 슬라이드로 이동
+  const prevHandler = () => {
+    setCurrentIndex(prevIndex =>
+      prevIndex === 0 ? apiData_hire.length - 1 : prevIndex - 1
     );
-};
+  };
 
-return (
-    <BackContainer>
-
-        <CarouselContainer>
-            <CarouselSlider style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-                {apiData_hire.map((item, index) => (
-                    <CarouselItem key={index}>
-                        <div>소속기관명: {item.BLNG_INST_NM}</div>
-                        <div>제목: {item.BRDI_SJ}</div>
-                        <div>작성일자: {item.RDT}</div>
-                        <div>상세 URL: <a href={item.HOME_URL} target="_blank" rel="noopener noreferrer">{item.HOME_URL}</a></div>
-                    </CarouselItem>
-                ))}
-            </CarouselSlider>
-            <PrevButton onClick={prevHandler}> <AiOutlineArrowLeft /></PrevButton>
-            <NextButton onClick={nextHandler}> <AiOutlineArrowRight /></NextButton>
-        </CarouselContainer>
-    </BackContainer>
-)
+  return (
+    <CarouselContainer>
+      <CarouselSlider style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+        {Array.from({ length: 26 }, (_, index) => (
+          <CarouselItem key={index}>
+            <StyledImage src={`img1 (${index + 1}).jpg`} alt={`Slide ${index + 1}`} />
+          </CarouselItem>
+        ))}
+      </CarouselSlider>
+      <PrevButton onClick={prevHandler}><AiOutlineArrowLeft /></PrevButton>
+      <NextButton onClick={nextHandler}><AiOutlineArrowRight /></NextButton>
+    </CarouselContainer>
+  )
+}

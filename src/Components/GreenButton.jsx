@@ -13,7 +13,7 @@ export default styled.button`
     border-color : #D0864B;
     border-radius : ${props => props.radius || "5px"};
     background-color : ${props => props.$background ? "#D0864B" : null};
-    color : ${props => props.$background ? "white" : "#DO864B"};
+    color :  #D0864B;
     font-weight : bold;
     font-size : 18px;
 `
